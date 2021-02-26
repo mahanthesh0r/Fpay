@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Fpay</string>
+    <string name="let_s_sign_you_in">Let\'s Sign You In</string>
+    <string name="welcome_user">Welcome User</string>
+</resources>
