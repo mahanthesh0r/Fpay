@@ -2,4 +2,12 @@
     <string name="app_name">Fpay</string>
     <string name="let_s_sign_you_in">Let\'s Sign You In</string>
     <string name="welcome_user">Welcome User</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="create_an_account">create an account</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="currency">₹</string>
+    <string name="fpay_wallet_balance">Fpay Wallet Balance</string>
+    <string name="top_up">Top up</string>
+    <string name="transfer">Transfer</string>
+    <string name="withdraw">Withdraw</string>
 </resources>
