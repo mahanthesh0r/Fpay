@@ -2,13 +2,15 @@ package com.mahanthesh.fpay.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 import com.mahanthesh.fpay.R;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SpaceOnClickListener {
 
     SpaceNavigationView bottomNavigation;
 
@@ -27,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void listeners() {
-
+        bottomNavigation.setSpaceOnClickListener(this);
     }
 
     private void bottomNavigationConfig(){
@@ -38,4 +40,19 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation.showIconOnly();
     }
 
+    @Override
+    public void onCentreButtonClick() {
+        Intent qrCodeIntent = new Intent(this, QRCodeActivity.class);
+        startActivity(qrCodeIntent);
+    }
+
+    @Override
+    public void onItemClick(int itemIndex, String itemName) {
+
+    }
+
+    @Override
+    public void onItemReselected(int itemIndex, String itemName) {
+
+    }
 }

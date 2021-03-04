@@ -15,11 +15,12 @@
         android:gravity="bottom"
         android:layout_gravity="bottom"
         android:translationZ="90dp"
-        app:active_item_color="@color/colorBlack"
-        app:centre_button_color="@color/colorBlack"
+        app:active_item_color="@color/colorPrimary"
+        app:centre_button_color="@color/colorPrimary"
         app:centre_button_icon="@drawable/ic_qr_code"
-        app:inactive_item_color="@color/colorGrey"
-        app:space_background_color="@color/colorPrimary"
+        app:inactive_centre_button_icon_color="@color/colorWhite"
+        app:inactive_item_color="@color/colorDarkGrey"
+        app:space_background_color="@color/colorWhite"
         app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,9 +70,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="30dp"
-                    android:text="Spendings"
+                    android:text="@string/spendings"
                     android:textSize="@dimen/font_sub_heading"
                     android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

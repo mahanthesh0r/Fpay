@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding_medium"
+    android:orientation="vertical"
+    tools:context=".fragment.QRCodeFragment">
+
+    <com.github.florent37.shapeofview.shapes.DottedEdgesCutCornerView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:shape_dot_radius="5dp"
+        app:shape_dot_spacing="8dp"
+        app:shape_edge_position="bottom"
+        app:shape_dottedEdgesCutCorner_bottomLeftSize="20dp"
+        app:shape_dottedEdgesCutCorner_bottomRightSize="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorPrimaryLight"
+            android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_view_qr_code" />
+
+        </LinearLayout>
+
+    </com.github.florent37.shapeofview.shapes.DottedEdgesCutCornerView>
+
+    <com.github.florent37.shapeofview.shapes.DottedEdgesCutCornerView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:shape_dot_radius="5dp"
+        app:shape_dot_spacing="8dp"
+        app:shape_edge_position="top"
+        app:shape_dottedEdgesCutCorner_topRightSize="20dp"
+        app:shape_dottedEdgesCutCorner_topLeftSize="20dp"
+        app:shape_dottedEdgesCutCorner_bottomLeftSize="8dp"
+        app:shape_dottedEdgesCutCorner_bottomRightSize="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorPrimaryLight"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$ 16,003.00"
+                android:textSize="@dimen/font_heading"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fpay_wallet_balance"
+                android:fontFamily="@font/poppins"/>
+
+        </LinearLayout>
+
+    </com.github.florent37.shapeofview.shapes.DottedEdgesCutCornerView>
+
+
+
+
+</LinearLayout>
