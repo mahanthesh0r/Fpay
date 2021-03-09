@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "46988253960",
+    "project_id": "fpay-9adfa",
+    "storage_bucket": "fpay-9adfa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46988253960:android:2956141b068835a349aabd",
+        "android_client_info": {
+          "package_name": "com.mahanthesh.fpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46988253960-e3ate8f3p823s7b6jhov0bpnotjoli2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mahanthesh.fpay",
+            "certificate_hash": "da7c834003ae6a188e43a80aa6ed471fbf632d03"
+          }
+        },
+        {
+          "client_id": "46988253960-9r9carnaeq4057fnl64t9n51ukmqk09a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5a5B1Rc4LSdDjbg0Eikbb8xGJJYqO6jU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46988253960-9r9carnaeq4057fnl64t9n51ukmqk09a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorGrey</item>
+        <item name="colorPrimaryDark">@color/colorGrey</item>
+        <item name="colorAccent">@color/colorGrey</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 
@@ -24,5 +25,8 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+
+
+
 
 </resources>

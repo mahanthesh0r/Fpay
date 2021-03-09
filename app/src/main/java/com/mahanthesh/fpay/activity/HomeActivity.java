@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
@@ -18,6 +19,11 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+        }
 
         init();
         listeners();
@@ -48,6 +54,11 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
 
     @Override
     public void onItemClick(int itemIndex, String itemName) {
+        switch (itemName){
+            case "Profile":
+                startActivity(new Intent(this, ProfileActivity.class));
+
+        }
 
     }
 
