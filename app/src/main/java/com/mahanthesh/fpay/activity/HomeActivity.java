@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.luseen.spacenavigation.SpaceItem;
@@ -14,6 +15,7 @@ import com.mahanthesh.fpay.R;
 public class HomeActivity extends AppCompatActivity implements SpaceOnClickListener {
 
     SpaceNavigationView bottomNavigation;
+    private static final String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,9 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         bottomNavigation.addSpaceItem(new SpaceItem("Add Card",R.drawable.ic_card));
         bottomNavigation.addSpaceItem(new SpaceItem("Profile",R.drawable.ic_profile));
         bottomNavigation.showIconOnly();
+
     }
+
 
     @Override
     public void onCentreButtonClick() {
@@ -57,6 +61,10 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         switch (itemName){
             case "Profile":
                 startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            case "Settings":
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
 
         }
 
@@ -65,5 +73,12 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
     @Override
     public void onItemReselected(int itemIndex, String itemName) {
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        bottomNavigation.changeCurrentItem(0);
     }
 }

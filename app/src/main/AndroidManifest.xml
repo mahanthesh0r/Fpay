@@ -12,9 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.PinSettingsActivity"
             android:theme="@style/AppTheme"
-            />
+            android:label="Settings"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="Profile"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.QRCodeActivity"
             android:theme="@style/CustomMaterialTheme" />
@@ -31,9 +39,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/CustomTheme"
-            android:windowSoftInputMode="adjustResize|stateVisible">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity android:name=".activity.MainActivity" />
     </application>
 
