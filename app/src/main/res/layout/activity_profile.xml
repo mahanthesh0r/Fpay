@@ -6,20 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".activity.ProfileActivity">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_base_color="@color/colorDarkGrey"
+        android:clipChildren="true"
+        app:shimmer_colored="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/placerholder_layout" />
+            <include layout="@layout/placerholder_layout" />
+        </LinearLayout>
+
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
+        android:padding="@dimen/padding_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="@dimen/padding_medium"
-        android:background="@color/colorPrimaryLight">
+        android:visibility="gone">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -36,103 +64,121 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="15dp"
-                        android:text="First Name"/>
+                        android:text="First Name" />
 
                     <EditText
                         android:id="@+id/et_fname"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
+                        android:drawableStart="@drawable/ic_id_card"
+                        android:drawablePadding="@dimen/padding_small"
                         android:hint="John"
-                        android:paddingStart="@dimen/padding_small"/>
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="Last Name"/>
+                        android:layout_marginBottom="15dp"
+                        android:text="Last Name" />
 
                     <EditText
                         android:id="@+id/et_lname"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
+                        android:drawableStart="@drawable/ic_id_card"
+                        android:drawablePadding="@dimen/padding_small"
                         android:hint="Doe"
-                        android:paddingStart="@dimen/padding_small"/>
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="Email-ID"/>
+                        android:layout_marginBottom="15dp"
+                        android:text="Email-ID" />
 
                     <EditText
                         android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/padding_small"
                         android:hint="john@doe.com"
-                        android:paddingStart="@dimen/padding_small"/>
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="Phone Number"/>
+                        android:layout_marginBottom="15dp"
+                        android:text="Phone Number" />
 
                     <EditText
                         android:id="@+id/et_phone_number"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawablePadding="@dimen/padding_small"
                         android:hint="+91 8965471235"
-                        android:paddingStart="@dimen/padding_small"/>
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="Gender"/>
+                        android:layout_marginBottom="15dp"
+                        android:text="Gender" />
 
                     <EditText
                         android:id="@+id/et_gender"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
-                        android:paddingStart="@dimen/padding_small" />
+                        android:drawableStart="@drawable/ic_male"
+                        android:drawablePadding="@dimen/padding_small"
+                        android:hint="Male"
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="Address"/>
+                        android:layout_marginBottom="15dp"
+                        android:text="Address" />
 
                     <EditText
                         android:id="@+id/et_address"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edittext_background"
+                        android:drawableStart="@drawable/ic_address"
+                        android:drawablePadding="@dimen/padding_small"
                         android:hint="address"
-                        android:paddingStart="@dimen/padding_small"/>
+                        android:paddingStart="@dimen/padding_small"
+                        android:textColor="@color/colorBlack" />
 
 
                     <Button
                         android:id="@+id/btn_save"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Save"
-                        android:textColor="@color/colorWhite"
                         android:layout_marginTop="@dimen/padding_medium"
-                        android:background="@drawable/btn_colored_rounded"/>
+                        android:background="@drawable/btn_colored_rounded"
+                        android:text="Save"
+                        android:textColor="@color/colorWhite" />
 
 
                 </LinearLayout>
-
 
 
             </androidx.cardview.widget.CardView>

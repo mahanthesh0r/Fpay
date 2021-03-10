@@ -60,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.tv_arrow_settings:
             case R.id.cl_settings:
                 startActivity(new Intent(this, PinSettingsActivity.class));
+                this.finish();
                 break;
         }
     }

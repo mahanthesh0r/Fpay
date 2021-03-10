@@ -78,7 +78,10 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+        }
         bottomNavigation.changeCurrentItem(0);
     }
 }

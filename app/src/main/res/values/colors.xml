@@ -10,6 +10,7 @@
     <color name="colorDarkGrey">#AEAEAE</color>
     <color name="colorYellow">#FEC42D</color>
     <color name="colorRed">#FA6E4B</color>
+    <color name="placeholder_bg">#dddddd</color>
 
 
 </resources>
