@@ -35,6 +35,8 @@ public class FirebaseRepository {
                 UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
                 if(userInfo != null){
                     onFirestoreTaskComplete.userDataAdded(userInfo);
+                } else {
+                    onFirestoreTaskComplete.onFetchError();
                 }
             }
         });
@@ -61,7 +63,7 @@ public class FirebaseRepository {
     public interface OnFirestoreTaskComplete {
         void userDataAdded(UserInfo userInfo);
         void userDataSaved();
-        void onFetchError(Exception e);
+        void onFetchError();
         void onSaveError(Exception e);
 
     }

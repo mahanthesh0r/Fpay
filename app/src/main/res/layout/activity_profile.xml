@@ -73,9 +73,10 @@
                         android:background="@drawable/edittext_background"
                         android:drawableStart="@drawable/ic_id_card"
                         android:drawablePadding="@dimen/padding_small"
-                        android:hint="John"
+                        android:hint=""
                         android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        android:textCursorDrawable="@null"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,9 +92,10 @@
                         android:background="@drawable/edittext_background"
                         android:drawableStart="@drawable/ic_id_card"
                         android:drawablePadding="@dimen/padding_small"
-                        android:hint="Doe"
+                        android:hint=""
                         android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        android:textCursorDrawable="@null"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,9 +111,10 @@
                         android:background="@drawable/edittext_background"
                         android:drawableStart="@drawable/ic_email"
                         android:drawablePadding="@dimen/padding_small"
-                        android:hint="john@doe.com"
+                        android:hint=""
                         android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        android:textCursorDrawable="@null"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -127,9 +130,10 @@
                         android:background="@drawable/edittext_background"
                         android:drawableStart="@drawable/ic_phone"
                         android:drawablePadding="@dimen/padding_small"
-                        android:hint="+91 8965471235"
+                        android:hint=""
                         android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        android:textCursorDrawable="@null"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,16 +142,12 @@
                         android:layout_marginBottom="15dp"
                         android:text="Gender" />
 
-                    <EditText
-                        android:id="@+id/et_gender"
+                    <Spinner
+                        android:id="@+id/spinner_gender"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="@drawable/edittext_background"
-                        android:drawableStart="@drawable/ic_male"
-                        android:drawablePadding="@dimen/padding_small"
-                        android:hint="Male"
-                        android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:background="@drawable/edittext_background" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,9 +163,19 @@
                         android:background="@drawable/edittext_background"
                         android:drawableStart="@drawable/ic_address"
                         android:drawablePadding="@dimen/padding_small"
-                        android:hint="address"
+                        android:hint=""
                         android:paddingStart="@dimen/padding_small"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorBlack"
+                        android:textCursorDrawable="@null"/>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginVertical="@dimen/padding_small"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="gone"/>
 
 
                     <Button
@@ -176,6 +186,8 @@
                         android:background="@drawable/btn_colored_rounded"
                         android:text="Save"
                         android:textColor="@color/colorWhite" />
+
+
 
 
                 </LinearLayout>

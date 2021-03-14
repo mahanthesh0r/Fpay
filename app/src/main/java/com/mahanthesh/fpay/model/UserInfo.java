@@ -23,6 +23,10 @@ public class UserInfo implements Serializable {
         this.address = address;
     }
 
+    /*
+        Getters method
+     */
+
     public String getFirstName() {
         return firstName;
     }
@@ -45,5 +49,33 @@ public class UserInfo implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    /*
+    Setters method
+     */
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

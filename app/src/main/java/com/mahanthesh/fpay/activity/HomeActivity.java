@@ -65,6 +65,9 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
             case "Settings":
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
+            case "Add Card":
+                startActivity(new Intent(this, CreditCardActivity.class));
+                break;
 
         }
 

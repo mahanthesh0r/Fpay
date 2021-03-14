@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CreditCardActivity"
+    android:background="@color/colorPrimaryLight">
+
+    <com.cooltechworks.creditcarddesign.CreditCardView
+        android:id="@+id/credit_card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:card_number="4084084084084081"
+        app:card_holder_name="HARISH SRIDHARAN"
+        app:cvv="522"
+        app:card_expiration="01/17"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="@dimen/padding_medium">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_small">
+
+                <com.braintreepayments.cardform.view.SupportedCardTypesView
+                    android:id="@+id/supported_card_types"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp" />
+
+                <com.braintreepayments.cardform.view.CardForm
+                    android:id="@+id/card_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/padding_small"/>
+
+
+                <Button
+                    android:id="@+id/btn_add_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_card"
+                    android:background="@drawable/btn_colored_rounded"
+                    android:textColor="@color/colorWhite"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
