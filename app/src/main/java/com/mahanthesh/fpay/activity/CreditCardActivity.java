@@ -3,8 +3,11 @@ package com.mahanthesh.fpay.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +18,13 @@ import com.braintreepayments.cardform.OnCardFormSubmitListener;
 import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.view.CardEditText;
 import com.braintreepayments.cardform.view.CardForm;
-import com.braintreepayments.cardform.view.SupportedCardTypesView;
 import com.cooltechworks.creditcarddesign.CreditCardView;
 import com.mahanthesh.fpay.R;
-import com.mahanthesh.fpay.utils.Utils;
+import com.mahanthesh.fpay.model.SavedCardModel;
+import com.mahanthesh.fpay.viewModel.SavedCardViewModel;
 
-import static com.mahanthesh.fpay.utils.Utils.SUPPORTED_CARD_TYPES;
+import java.util.List;
+
 import static com.mahanthesh.fpay.utils.Utils.hideKeyboard;
 
 public class CreditCardActivity extends AppCompatActivity implements OnCardFormSubmitListener,
@@ -30,6 +34,8 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     private Button btnAddCard;
     private CreditCardView creditCardView;
     private CardView cardViewCreditCardForm;
+    private SavedCardViewModel savedCardViewModel;
+    private static final String TAG = "CreditCardActivity";
 
 
     @Override
@@ -50,7 +56,14 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         btnAddCard = findViewById(R.id.btn_add_card);
         creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
         cardViewCreditCardForm = findViewById(R.id.cv_credit_card_form);
-        creditCardForm();
+        savedCardViewModel = new ViewModelProvider(this).get(SavedCardViewModel.class);
+        initCreditCardForm();
+        savedCardViewModel.getSavedCardLiveData().observe(this, new Observer<List<SavedCardModel>>() {
+            @Override
+            public void onChanged(List<SavedCardModel> savedCardModelList) {
+                Log.d(TAG, "onChanged: " + savedCardModelList.get(0).getCardHolderName());
+            }
+        });
 
     }
 
@@ -60,12 +73,11 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         btnAddCard.setOnClickListener(this);
     }
 
-    private void creditCardForm(){
+    private void initCreditCardForm(){
         cardForm.cardRequired(true)
                 .expirationRequired(true)
                 .cvvRequired(true)
                 .cardholderName(CardForm.FIELD_REQUIRED)
-                .postalCodeRequired(true)
                 .mobileNumberRequired(true)
                 .mobileNumberExplanation("SMS is required on this number")
                 .actionLabel("Purchase")

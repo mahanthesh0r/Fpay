@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mahanthesh.fpay.model.UserInfo;
 
-public class FirebaseRepository {
+public class ProfileRepository {
 
     private OnFirestoreTaskComplete onFirestoreTaskComplete;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -24,7 +24,7 @@ public class FirebaseRepository {
 
 
 
-    public FirebaseRepository(OnFirestoreTaskComplete onFirestoreTaskComplete){
+    public ProfileRepository(OnFirestoreTaskComplete onFirestoreTaskComplete){
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
     }
 

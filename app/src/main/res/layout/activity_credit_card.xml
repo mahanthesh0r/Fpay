@@ -31,28 +31,6 @@
                 android:layout_gravity="center"
                 />
 
-            <com.cooltechworks.creditcarddesign.CreditCardView
-                android:id="@+id/credit_card_view_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:card_number="4084084084084081"
-                app:card_holder_name="HARISH SRIDHARAN"
-                app:cvv="522"
-                app:card_expiration="01/17"
-                android:layout_gravity="center_horizontal"
-                />
-
-            <com.cooltechworks.creditcarddesign.CreditCardView
-                android:id="@+id/credit_card_view_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:card_number="4084084084084081"
-                app:card_holder_name="HARISH SRIDHARAN"
-                app:cvv="522"
-                app:card_expiration="01/17"
-                android:layout_gravity="center_horizontal"
-                />
-
         </LinearLayout>
 
 
@@ -86,7 +64,8 @@
                     android:id="@+id/card_form"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/padding_small"/>
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:theme="@style/CustomTheme"/>
 
 
                 <Button

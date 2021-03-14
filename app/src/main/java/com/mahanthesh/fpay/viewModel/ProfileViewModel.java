@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.mahanthesh.fpay.model.UserInfo;
-import com.mahanthesh.fpay.repository.FirebaseRepository;
+import com.mahanthesh.fpay.repository.ProfileRepository;
 
-public class ProfileViewModel extends ViewModel implements FirebaseRepository.OnFirestoreTaskComplete {
+public class ProfileViewModel extends ViewModel implements ProfileRepository.OnFirestoreTaskComplete {
 
     private static final String TAG = "ProfileViewModel";
 
-    private FirebaseRepository firebaseRepository = new FirebaseRepository(this);
+    private ProfileRepository profileRepository = new ProfileRepository(this);
     private MutableLiveData<UserInfo> userInfoLiveData = new MutableLiveData<>();
     private MutableLiveData<String> userInfoMessage = new MutableLiveData<>();
     private MutableLiveData<String> userInfoOnSaveMessage = new MutableLiveData<>();
@@ -32,11 +32,11 @@ public class ProfileViewModel extends ViewModel implements FirebaseRepository.On
     }
 
     public void setUserInfo(UserInfo userInfo){
-        firebaseRepository.setUserData(userInfo);
+        profileRepository.setUserData(userInfo);
     }
 
     public ProfileViewModel(){
-        firebaseRepository.getUserData();
+        profileRepository.getUserData();
 
     }
 
