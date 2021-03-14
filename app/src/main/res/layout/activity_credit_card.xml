@@ -8,25 +8,69 @@
     tools:context=".activity.CreditCardActivity"
     android:background="@color/colorPrimaryLight">
 
-    <com.cooltechworks.creditcarddesign.CreditCardView
-        android:id="@+id/credit_card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:card_number="4084084084084081"
-        app:card_holder_name="HARISH SRIDHARAN"
-        app:cvv="522"
-        app:card_expiration="01/17"
-        android:layout_gravity="center_horizontal"
-        />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_credit_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="start">
+
+            <com.cooltechworks.creditcarddesign.CreditCardView
+                android:id="@+id/credit_card_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:card_number="4084084084084081"
+                app:card_holder_name="HARISH SRIDHARAN"
+                app:cvv="522"
+                app:card_expiration="01/17"
+                android:layout_gravity="center"
+                />
+
+            <com.cooltechworks.creditcarddesign.CreditCardView
+                android:id="@+id/credit_card_view_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:card_number="4084084084084081"
+                app:card_holder_name="HARISH SRIDHARAN"
+                app:cvv="522"
+                app:card_expiration="01/17"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <com.cooltechworks.creditcarddesign.CreditCardView
+                android:id="@+id/credit_card_view_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:card_number="4084084084084081"
+                app:card_holder_name="HARISH SRIDHARAN"
+                app:cvv="522"
+                app:card_expiration="01/17"
+                android:layout_gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+
+
+    </HorizontalScrollView>
+
+
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_credit_card_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardCornerRadius="@dimen/padding_medium">
+        app:cardCornerRadius="@dimen/padding_medium"
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -37,13 +81,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/padding_small">
-
-                <com.braintreepayments.cardform.view.SupportedCardTypesView
-                    android:id="@+id/supported_card_types"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="20dp" />
 
                 <com.braintreepayments.cardform.view.CardForm
                     android:id="@+id/card_form"

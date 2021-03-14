@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".activity.CreditCardActivity"></activity>
+        <activity
+            android:name=".activity.CreditCardActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.PinSettingsActivity"
             android:label="Settings"

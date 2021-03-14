@@ -1,8 +1,12 @@
 package com.mahanthesh.fpay.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,9 +27,9 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         CardEditText.OnCardTypeChangedListener, View.OnClickListener {
 
     private CardForm cardForm;
-    private SupportedCardTypesView mSupportedCardTypesView;
     private Button btnAddCard;
     private CreditCardView creditCardView;
+    private CardView cardViewCreditCardForm;
 
 
     @Override
@@ -33,16 +37,19 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit_card);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         init();
         listener();
     }
 
     private void init() {
         cardForm = (CardForm) findViewById(R.id.card_form);
-        mSupportedCardTypesView = findViewById(R.id.supported_card_types);
-        mSupportedCardTypesView.setSupportedCardTypes(SUPPORTED_CARD_TYPES);
         btnAddCard = findViewById(R.id.btn_add_card);
         creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
+        cardViewCreditCardForm = findViewById(R.id.cv_credit_card_form);
         creditCardForm();
 
     }
@@ -81,9 +88,9 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     @Override
     public void onCardTypeChanged(CardType cardType) {
         if (cardType == CardType.EMPTY) {
-            mSupportedCardTypesView.setSupportedCardTypes(SUPPORTED_CARD_TYPES);
+
         } else {
-            mSupportedCardTypesView.setSelected(cardType);
+
         }
     }
 
@@ -102,5 +109,21 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
                 Toast.makeText(this, "Invalid card", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        } else if(item.getItemId() == R.id.menu_add_card_btn){
+            cardViewCreditCardForm.setVisibility(View.VISIBLE);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
