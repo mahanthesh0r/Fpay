@@ -8,36 +8,23 @@
     tools:context=".activity.CreditCardActivity"
     android:background="@color/colorPrimaryLight">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout_credit_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        android:visibility="gone">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontal_scroll_credit_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/placeholder_credit_card"/>
 
-        <LinearLayout
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_credit_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="start">
-
-            <com.cooltechworks.creditcarddesign.CreditCardView
-                android:id="@+id/credit_card_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:card_number="4084084084084081"
-                app:card_holder_name="HARISH SRIDHARAN"
-                app:cvv="522"
-                app:card_expiration="01/17"
-                android:layout_gravity="center"
-                />
-
-        </LinearLayout>
-
-
-
-    </HorizontalScrollView>
-
-
+            android:clipToPadding="false"
+            android:orientation="horizontal"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_credit_card_form"

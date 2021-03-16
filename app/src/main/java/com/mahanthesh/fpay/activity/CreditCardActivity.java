@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.braintreepayments.cardform.OnCardFormSubmitListener;
@@ -19,8 +23,11 @@ import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.view.CardEditText;
 import com.braintreepayments.cardform.view.CardForm;
 import com.cooltechworks.creditcarddesign.CreditCardView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.mahanthesh.fpay.R;
+import com.mahanthesh.fpay.adapters.CreditCardAdapter;
 import com.mahanthesh.fpay.model.SavedCardModel;
+import com.mahanthesh.fpay.utils.LinePagerIndicatorDecoration;
 import com.mahanthesh.fpay.viewModel.SavedCardViewModel;
 
 import java.util.List;
@@ -36,6 +43,11 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     private CardView cardViewCreditCardForm;
     private SavedCardViewModel savedCardViewModel;
     private static final String TAG = "CreditCardActivity";
+    private RecyclerView listViewCreditCard;
+    private CreditCardAdapter adapter;
+    private PagerSnapHelper snapHelper;
+    private ShimmerFrameLayout shimmerFrameLayout;
+
 
 
     @Override
@@ -57,11 +69,28 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
         cardViewCreditCardForm = findViewById(R.id.cv_credit_card_form);
         savedCardViewModel = new ViewModelProvider(this).get(SavedCardViewModel.class);
+        listViewCreditCard = findViewById(R.id.lv_credit_card);
+        snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(listViewCreditCard);
+        // pager indicator
+        listViewCreditCard.addItemDecoration(new LinePagerIndicatorDecoration());
+        shimmerFrameLayout = (ShimmerFrameLayout) findViewById(R.id.shimmer_layout_credit_card);
+
+
+        adapter = new CreditCardAdapter();
+        listViewCreditCard.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        listViewCreditCard.setAdapter(adapter);
         initCreditCardForm();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
         savedCardViewModel.getSavedCardLiveData().observe(this, new Observer<List<SavedCardModel>>() {
             @Override
             public void onChanged(List<SavedCardModel> savedCardModelList) {
                 Log.d(TAG, "onChanged: " + savedCardModelList.get(0).getCardHolderName());
+                adapter.setSavedCardModelList(savedCardModelList);
+                adapter.notifyDataSetChanged();
+                shimmerFrameLayout.hideShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+
             }
         });
 
