@@ -1,6 +1,7 @@
 package com.mahanthesh.fpay.repository;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -9,10 +10,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mahanthesh.fpay.model.SavedCardModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedCardRepository {
@@ -35,6 +40,24 @@ public class SavedCardRepository {
 
                 } else {
                         onfirestoreTaskComplete.onError(task.getException());
+                }
+            }
+        });
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(queryDocumentSnapshots != null){
+                    List<SavedCardModel> savedCardModels = new ArrayList<>();
+                    for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        if(doc != null){
+                            savedCardModels.add(doc.toObject(SavedCardModel.class));
+                            onfirestoreTaskComplete.onGetSavedCards(savedCardModels);
+                        }
+                    }
+                }
+                if(e != null){
+                    onfirestoreTaskComplete.onError(e);
                 }
             }
         });

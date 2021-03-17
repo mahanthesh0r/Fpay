@@ -39,7 +39,6 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
 
     private CardForm cardForm;
     private Button btnAddCard;
-    private CreditCardView creditCardView;
     private CardView cardViewCreditCardForm;
     private SavedCardViewModel savedCardViewModel;
     private static final String TAG = "CreditCardActivity";
@@ -66,7 +65,6 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     private void init() {
         cardForm = (CardForm) findViewById(R.id.card_form);
         btnAddCard = findViewById(R.id.btn_add_card);
-        creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
         cardViewCreditCardForm = findViewById(R.id.cv_credit_card_form);
         savedCardViewModel = new ViewModelProvider(this).get(SavedCardViewModel.class);
         listViewCreditCard = findViewById(R.id.lv_credit_card);
@@ -80,19 +78,10 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         adapter = new CreditCardAdapter();
         listViewCreditCard.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         listViewCreditCard.setAdapter(adapter);
-        initCreditCardForm();
         shimmerFrameLayout.setVisibility(View.VISIBLE);
-        savedCardViewModel.getSavedCardLiveData().observe(this, new Observer<List<SavedCardModel>>() {
-            @Override
-            public void onChanged(List<SavedCardModel> savedCardModelList) {
-                Log.d(TAG, "onChanged: " + savedCardModelList.get(0).getCardHolderName());
-                adapter.setSavedCardModelList(savedCardModelList);
-                adapter.notifyDataSetChanged();
-                shimmerFrameLayout.hideShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
+        initCreditCardForm();
+        fetchSavedCards();
 
-            }
-        });
 
     }
 
@@ -113,6 +102,55 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
                 .saveCardCheckBoxChecked(true)
                 .saveCardCheckBoxVisible(true)
                 .setup(this);
+    }
+
+    private void fetchSavedCards(){
+        savedCardViewModel.getSavedCardLiveData().observe(this, new Observer<List<SavedCardModel>>() {
+            @Override
+            public void onChanged(List<SavedCardModel> savedCardModelList) {
+                adapter.setSavedCardModelList(savedCardModelList);
+                adapter.notifyDataSetChanged();
+                shimmerFrameLayout.hideShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+
+            }
+        });
+
+        savedCardViewModel.getSavedCardMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s.contains("Error")){
+                    Log.d(TAG, "onChanged: " + s);
+                    shimmerFrameLayout.hideShimmer();
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void saveCreditCard(){
+
+        SavedCardModel savedCardModel = new SavedCardModel();
+        savedCardModel.setCardHolderName(cardForm.getCardholderName());
+        savedCardModel.setCardHolderNumber(cardForm.getCardNumber());
+        savedCardModel.setCardCVV(cardForm.getCvv());
+        savedCardModel.setCardExpiry(cardForm.getExpirationMonth() + "/" + cardForm.getExpirationYear());
+        savedCardModel.setPhoneno(cardForm.getMobileNumber());
+
+        savedCardViewModel.postSavedCard(savedCardModel);
+
+        savedCardViewModel.getSavedCardMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s.equals("Card Saved")){
+                    Log.d(TAG, "onChanged: " + s);
+                    cardViewCreditCardForm.setVisibility(View.GONE);
+                    fetchSavedCards();
+                } else {
+                    Log.d(TAG, "onChanged: " + s);
+                }
+            }
+        });
     }
 
     @Override
@@ -140,10 +178,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         if(v.getId() == R.id.btn_add_card){
             hideKeyboard(this);
             if(cardForm.isValid()){
-                creditCardView.setCardHolderName(cardForm.getCardholderName());
-                creditCardView.setCardExpiry(cardForm.getExpirationMonth().concat("/").concat(cardForm.getExpirationYear()));
-                creditCardView.setCardNumber(cardForm.getCardNumber());
-                creditCardView.setCVV(cardForm.getCvv());
+                saveCreditCard();
                 Toast.makeText(this, "Card Saved", Toast.LENGTH_SHORT).show();
             } else {
                 cardForm.validate();
@@ -158,6 +193,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
             finish();
         } else if(item.getItemId() == R.id.menu_add_card_btn){
             cardViewCreditCardForm.setVisibility(View.VISIBLE);
+
         }
         return super.onOptionsItemSelected(item);
     }

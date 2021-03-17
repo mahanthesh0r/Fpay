@@ -20,8 +20,22 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_medium">
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_layout_user_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_small"
+                app:shimmer_auto_start="true"
+                android:visibility="gone">
+
+                <include layout="@layout/placeholder_simple"/>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_user_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="@dimen/padding_small"

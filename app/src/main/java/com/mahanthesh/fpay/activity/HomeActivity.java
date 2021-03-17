@@ -3,8 +3,11 @@ package com.mahanthesh.fpay.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.luseen.spacenavigation.SpaceItem;
@@ -12,10 +15,12 @@ import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 import com.mahanthesh.fpay.R;
 
-public class HomeActivity extends AppCompatActivity implements SpaceOnClickListener {
+public class HomeActivity extends AppCompatActivity implements SpaceOnClickListener, View.OnClickListener {
 
     SpaceNavigationView bottomNavigation;
     private static final String TAG = "HomeActivity";
+    private Button btnTopUp, btnTransfer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +38,15 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
 
     private void init() {
        bottomNavigation = (SpaceNavigationView) findViewById(R.id.bottomNavigation);
+       btnTopUp = findViewById(R.id.btn_top_up);
+       btnTransfer = findViewById(R.id.btn_transfer);
        bottomNavigationConfig();
     }
 
     private void listeners() {
         bottomNavigation.setSpaceOnClickListener(this);
+        btnTopUp.setOnClickListener(this);
+        btnTransfer.setOnClickListener(this);
     }
 
     private void bottomNavigationConfig(){
@@ -87,4 +96,19 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         }
         bottomNavigation.changeCurrentItem(0);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_top_up:
+
+                break;
+            case R.id.btn_transfer:
+                startActivity(new Intent(this, BiometricActivity.class));
+                break;
+
+        }
+    }
+
+
 }
