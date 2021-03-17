@@ -10,6 +10,7 @@ public class UserInfo implements Serializable {
     private String phoneNo;
     private String gender;
     private String address;
+    private Integer wallet_balance;
 
     public UserInfo() {
     }
@@ -51,6 +52,10 @@ public class UserInfo implements Serializable {
         return address;
     }
 
+    public Integer getWallet_balance() {
+        return wallet_balance;
+    }
+
     /*
     Setters method
      */
@@ -77,5 +82,9 @@ public class UserInfo implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setWallet_balance(Integer wallet_balance) {
+        this.wallet_balance = wallet_balance;
     }
 }

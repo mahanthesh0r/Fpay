@@ -36,4 +36,7 @@
     <string name="biometric_error_failed">Biometric authentication failed</string>
     <string name="biometric_cancelled">Biometric Authentication Cancelled</string>
     <string name="biometric_success">Biometric Authentication Success</string>
+    <string name="wallet_topup">Wallet Topup</string>
+    <string name="confirm_topup">Confirm Topup</string>
+    <string name="inr">INR</string>
 </resources>

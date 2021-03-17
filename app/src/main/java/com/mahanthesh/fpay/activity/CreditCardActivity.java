@@ -60,6 +60,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
 
         init();
         listener();
+
     }
 
     private void init() {

@@ -101,7 +101,7 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_top_up:
-
+                startActivity(new Intent(this, TopUpActivity.class));
                 break;
             case R.id.btn_transfer:
                 startActivity(new Intent(this, BiometricActivity.class));
