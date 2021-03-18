@@ -1,6 +1,8 @@
 package com.mahanthesh.fpay.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 
@@ -8,18 +10,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 import com.mahanthesh.fpay.R;
+import com.mahanthesh.fpay.viewModel.WalletViewModel;
 
 public class HomeActivity extends AppCompatActivity implements SpaceOnClickListener, View.OnClickListener {
 
     SpaceNavigationView bottomNavigation;
     private static final String TAG = "HomeActivity";
     private Button btnTopUp, btnTransfer;
+    private TextView textViewWalletBalance;
+    private WalletViewModel walletViewModel;
 
 
     @Override
@@ -40,6 +46,9 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
        bottomNavigation = (SpaceNavigationView) findViewById(R.id.bottomNavigation);
        btnTopUp = findViewById(R.id.btn_top_up);
        btnTransfer = findViewById(R.id.btn_transfer);
+       textViewWalletBalance = findViewById(R.id.tv_wallet_balance);
+       walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
+       getWalletBalance();
        bottomNavigationConfig();
     }
 
@@ -56,6 +65,15 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         bottomNavigation.addSpaceItem(new SpaceItem("Profile",R.drawable.ic_profile));
         bottomNavigation.showIconOnly();
 
+    }
+
+    private void getWalletBalance(){
+        walletViewModel.getWalletBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long integer) {
+                textViewWalletBalance.setText(integer.toString());
+            }
+        });
     }
 
 

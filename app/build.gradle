@@ -65,6 +65,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     //number keyboard
     implementation 'com.github.davidmigloz:number-keyboard:3.0.0'
+    //Dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    implementation 'com.github.muigukenneth:ElegantDialog:1.1.5'
 
 
 
