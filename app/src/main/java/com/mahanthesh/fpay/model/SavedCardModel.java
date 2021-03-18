@@ -2,7 +2,9 @@ package com.mahanthesh.fpay.model;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class SavedCardModel {
+import java.io.Serializable;
+
+public class SavedCardModel implements Serializable {
 
     @DocumentId
     private String cardId;
@@ -11,17 +13,27 @@ public class SavedCardModel {
     private String cardExpiry;
     private String cardCVV;
     private String phoneno;
+    private String cardBrand;
 
-    public SavedCardModel(String cardId, String cardHolderName, String cardHolderNumber, String cardExpiry, String cardCVV, String phoneno) {
+    public SavedCardModel(String cardId, String cardHolderName, String cardHolderNumber, String cardExpiry, String cardCVV, String phoneno, String cardBrand) {
         this.cardId = cardId;
         this.cardHolderName = cardHolderName;
         this.cardHolderNumber = cardHolderNumber;
         this.cardExpiry = cardExpiry;
         this.cardCVV = cardCVV;
         this.phoneno = phoneno;
+        this.cardBrand = cardBrand;
     }
 
     public SavedCardModel() {
+    }
+
+    public String getCardBrand() {
+        return cardBrand;
+    }
+
+    public void setCardBrand(String cardBrand) {
+        this.cardBrand = cardBrand;
     }
 
     public String getCardId() {

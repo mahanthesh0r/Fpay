@@ -9,21 +9,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.braintreepayments.cardform.OnCardFormSubmitListener;
 import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.view.CardEditText;
 import com.braintreepayments.cardform.view.CardForm;
-import com.cooltechworks.creditcarddesign.CreditCardView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mahanthesh.fpay.interfaces.ISavedCardCallback;
 import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.adapters.CreditCardAdapter;
 import com.mahanthesh.fpay.model.SavedCardModel;
@@ -32,10 +32,11 @@ import com.mahanthesh.fpay.viewModel.SavedCardViewModel;
 
 import java.util.List;
 
+import static com.mahanthesh.fpay.utils.Constants.GET_SAVED_CARD;
 import static com.mahanthesh.fpay.utils.Utils.hideKeyboard;
 
 public class CreditCardActivity extends AppCompatActivity implements OnCardFormSubmitListener,
-        CardEditText.OnCardTypeChangedListener, View.OnClickListener {
+        CardEditText.OnCardTypeChangedListener, View.OnClickListener, ISavedCardCallback {
 
     private CardForm cardForm;
     private Button btnAddCard;
@@ -46,6 +47,8 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     private CreditCardAdapter adapter;
     private PagerSnapHelper snapHelper;
     private ShimmerFrameLayout shimmerFrameLayout;
+    private String cardBrand;
+    private int amount_value = 0;
 
 
 
@@ -76,7 +79,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         shimmerFrameLayout = (ShimmerFrameLayout) findViewById(R.id.shimmer_layout_credit_card);
 
 
-        adapter = new CreditCardAdapter();
+        adapter = new CreditCardAdapter(this);
         listViewCreditCard.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         listViewCreditCard.setAdapter(adapter);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
@@ -137,6 +140,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         savedCardModel.setCardCVV(cardForm.getCvv());
         savedCardModel.setCardExpiry(cardForm.getExpirationMonth() + "/" + cardForm.getExpirationYear());
         savedCardModel.setPhoneno(cardForm.getMobileNumber());
+        savedCardModel.setCardBrand(cardBrand);
 
         savedCardViewModel.postSavedCard(savedCardModel);
 
@@ -170,6 +174,7 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
         if (cardType == CardType.EMPTY) {
 
         } else {
+            cardBrand = cardType.name();
 
         }
     }
@@ -203,5 +208,24 @@ public class CreditCardActivity extends AppCompatActivity implements OnCardFormS
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private boolean checkIntentResult(){
+        Intent i = getIntent();
+        int checkResult = i.getIntExtra("saved_card", 0);
+        amount_value = i.getIntExtra("amount_value", 0);
+        return checkResult == GET_SAVED_CARD;
+    }
+
+    @Override
+    public void onSavedCardClick(SavedCardModel savedCardModel) {
+        if(checkIntentResult()){
+            Intent topupIntent = new Intent(this, ConfirmTopupActivity.class);
+            topupIntent.putExtra("selected_card", savedCardModel);
+            topupIntent.putExtra("amount", amount_value);
+            startActivity(topupIntent);
+            finish();
+        }
+
     }
 }

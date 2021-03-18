@@ -99,7 +99,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider3"
-                app:srcCompat="@drawable/ic_billing_mastercard_logo" />
+                app:srcCompat="@drawable/ic_billing_visa_logo" />
 
             <TextView
                 android:id="@+id/tv_bank_name"
