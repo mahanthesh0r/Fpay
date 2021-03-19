@@ -53,9 +53,10 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_wallet_balance_qr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$ 16,003.00"
+                android:text="0"
                 android:textSize="@dimen/font_heading"
                 android:textColor="@color/colorBlack"/>
 

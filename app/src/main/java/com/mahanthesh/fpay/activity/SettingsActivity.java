@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.tv_transaction_history_click:
                 startActivity(new Intent(this, AllTransactionActivity.class));
-                finish();
+
         }
     }
 }

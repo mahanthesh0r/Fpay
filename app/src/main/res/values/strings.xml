@@ -41,4 +41,5 @@
     <string name="inr">INR</string>
     <string name="transaction_successful">Transaction Successful</string>
     <string name="featured">Featured</string>
+    <string name="use_fingerprint">Use Fingerprint</string>
 </resources>

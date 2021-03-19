@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -88,11 +89,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             } else {
                 //Sign in failed
+                Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show();
 
                 if(response == null){
                     //user cancelled
                 } else{
                     //response.getError
+                    Toast.makeText(this, "Server Error", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -105,8 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 handleFirebaseLogin();
                 break;
             case R.id.btn_create_account:
-                Intent signupIntent = new Intent(this, SignupActivity.class);
-                startActivity(signupIntent);
+                handleFirebaseLogin();
                 break;
         }
     }

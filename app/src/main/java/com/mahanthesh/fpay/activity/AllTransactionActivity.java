@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
+import com.bumptech.glide.Glide;
 import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.adapters.SpendingAdapter;
 import com.mahanthesh.fpay.model.TransactionModel;
@@ -23,6 +27,8 @@ public class AllTransactionActivity extends AppCompatActivity {
     private RecyclerView recyclerViewSpendings;
     private TransactionViewModel transactionViewModel;
     private SpendingAdapter spendingAdapter;
+    private ScrollView scrollView;
+    private ImageView imageViewEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,9 @@ public class AllTransactionActivity extends AppCompatActivity {
     }
 
     private void init(){
+        scrollView = findViewById(R.id.sv_content_main);
+        imageViewEmptyView = findViewById(R.id.iv_empty_layout);
+        Glide.with(this).load(R.drawable.empty_layout_gif).into(imageViewEmptyView);
         recyclerViewSpendings = findViewById(R.id.rv_transaction_history);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         spendingAdapter = new SpendingAdapter(0);
@@ -51,10 +60,18 @@ public class AllTransactionActivity extends AppCompatActivity {
         transactionViewModel.getTransactionListViewModel().observe(this, new Observer<List<TransactionModel>>() {
             @Override
             public void onChanged(List<TransactionModel> transactionModelList) {
-                spendingAdapter.setTransactionModelList(transactionModelList);
-                spendingAdapter.notifyDataSetChanged();
+                if(transactionModelList.size() != 0){
+                    hideEmptyView();
+                    spendingAdapter.setTransactionModelList(transactionModelList);
+                    spendingAdapter.notifyDataSetChanged();
+                }
             }
         });
+    }
+
+    private void hideEmptyView(){
+        imageViewEmptyView.setVisibility(View.GONE);
+        scrollView.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -20,7 +20,8 @@ public class ProfileRepository {
     private OnFirestoreTaskComplete onFirestoreTaskComplete;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference userRef = firebaseFirestore.collection("User");
-    private DocumentReference userDocRef = firebaseFirestore.collection("User").document(FirebaseAuth.getInstance().getUid());
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private DocumentReference userDocRef;
 
 
 
@@ -29,35 +30,42 @@ public class ProfileRepository {
     }
 
     public void getUserData(){
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                if(userInfo != null){
-                    onFirestoreTaskComplete.userDataAdded(userInfo);
-                } else {
-                    onFirestoreTaskComplete.onFetchError();
+        if(firebaseUser != null) {
+            userDocRef = firebaseFirestore.collection("User").document(firebaseUser.getUid());
+
+
+            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                    if (userInfo != null) {
+                        onFirestoreTaskComplete.userDataAdded(userInfo);
+                    } else {
+                        onFirestoreTaskComplete.onFetchError();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void setUserData(UserInfo userInfo){
-        userRef.document(FirebaseAuth.getInstance().getUid())
-                .set(userInfo)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        onFirestoreTaskComplete.userDataSaved();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        onFirestoreTaskComplete.onSaveError(e);
+        if(firebaseUser != null) {
+            userRef.document(firebaseUser.getUid())
+                    .set(userInfo)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            onFirestoreTaskComplete.userDataSaved();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            onFirestoreTaskComplete.onSaveError(e);
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 
     public interface OnFirestoreTaskComplete {

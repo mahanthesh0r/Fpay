@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
 
     SpaceNavigationView bottomNavigation;
     private static final String TAG = "HomeActivity";
-    private Button btnTopUp, btnTransfer;
+    private Button btnTopUp, btnTransfer, btnWithdraw;
     private TextView textViewWalletBalance;
     private WalletViewModel walletViewModel;
     private Slider slider;
@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
             this.finish();
@@ -65,12 +66,13 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
        bottomNavigation = (SpaceNavigationView) findViewById(R.id.bottomNavigation);
        btnTopUp = findViewById(R.id.btn_top_up);
        btnTransfer = findViewById(R.id.btn_transfer);
+       btnWithdraw = findViewById(R.id.btnWithdraw);
        textViewWalletBalance = findViewById(R.id.tv_wallet_balance);
        recyclerViewSpendings = findViewById(R.id.rv_spendings);
        walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
        slider = findViewById(R.id.banner_slider);
        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-       spendingAdapter = new SpendingAdapter(5);
+       spendingAdapter = new SpendingAdapter(12);
        recyclerViewSpendings.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
        recyclerViewSpendings.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
        recyclerViewSpendings.setAdapter(spendingAdapter);
@@ -85,6 +87,7 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         bottomNavigation.setSpaceOnClickListener(this);
         btnTopUp.setOnClickListener(this);
         btnTransfer.setOnClickListener(this);
+        btnWithdraw.setOnClickListener(this);
     }
 
     private void bottomNavigationConfig(){
@@ -100,7 +103,8 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         walletViewModel.getWalletBalance().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(Long integer) {
-                textViewWalletBalance.setText(integer.toString());
+                if(integer != null)
+                    textViewWalletBalance.setText(integer.toString());
             }
         });
     }
@@ -114,8 +118,10 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
         transactionViewModel.getTransactionListViewModel().observe(this, new Observer<List<TransactionModel>>() {
             @Override
             public void onChanged(List<TransactionModel> transactionModelList) {
-                spendingAdapter.setTransactionModelList(transactionModelList);
-                spendingAdapter.notifyDataSetChanged();
+                if(transactionModelList.size() != 0){
+                    spendingAdapter.setTransactionModelList(transactionModelList);
+                    spendingAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -184,6 +190,9 @@ public class HomeActivity extends AppCompatActivity implements SpaceOnClickListe
                 break;
             case R.id.btn_transfer:
                 startActivity(new Intent(this, BiometricActivity.class));
+                break;
+            case R.id.btnWithdraw:
+                Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
                 break;
 
         }

@@ -7,15 +7,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.mahanthesh.fpay.R;
+import com.mahanthesh.fpay.viewModel.WalletViewModel;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -41,6 +45,8 @@ public class QRCodeFragment extends Fragment {
     private String WalletID = "User Wallet ID";
     private ImageView imageViewQRCode;
     private static final String TAG = "QRCodeFragment";
+    private WalletViewModel walletViewModel;
+    private TextView textViewWalletBalance;
 
     public QRCodeFragment() {
         // Required empty public constructor
@@ -91,11 +97,23 @@ public class QRCodeFragment extends Fragment {
         imageViewQRCode = getView().findViewById(R.id.image_view_qr_code);
         qrgEncoder = new QRGEncoder(WalletID,null, QRGContents.Type.TEXT, 600);
         qrgEncoder.setColorWhite(Color.parseColor("#EAEFFF"));
-
+        textViewWalletBalance = getView().findViewById(R.id.tv_wallet_balance_qr);
         // Getting QR-Code as Bitmap
         Bitmap bitmap = qrgEncoder.getBitmap();
         // Setting Bitmap to ImageView
         imageViewQRCode.setImageBitmap(bitmap);
+        walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
+        getWalletBalance();
 
+    }
+
+    private void getWalletBalance(){
+        walletViewModel.getWalletBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long integer) {
+                if(integer != null)
+                    textViewWalletBalance.setText(integer.toString());
+            }
+        });
     }
 }

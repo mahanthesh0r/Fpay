@@ -157,7 +157,7 @@
                 android:id="@+id/tv_wallet_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="16,003.00"
+                android:text="0"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/font_heading"
                 android:textStyle="bold" />
@@ -190,12 +190,12 @@
             android:text="@string/transfer"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintEnd_toStartOf="@+id/btnWithdraw"
             app:layout_constraintStart_toEndOf="@+id/btn_top_up"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnWithdraw"
             android:layout_width="90dp"
             android:layout_height="80dp"
             android:layout_marginTop="20dp"

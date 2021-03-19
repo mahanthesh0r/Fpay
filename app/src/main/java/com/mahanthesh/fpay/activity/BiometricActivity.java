@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class BiometricActivity extends AppCompatActivity implements BiometricCal
     private ImageView imageViewFingerPrint;
     private ProfileViewModel profileViewModel;
     private TextView textViewUsername;
+    private Button btnShowFingerprint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +44,15 @@ public class BiometricActivity extends AppCompatActivity implements BiometricCal
         imageViewFingerPrint = findViewById(R.id.image_view_finger_print);
         textViewUsername = findViewById(R.id.tv_user_name);
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        btnShowFingerprint = findViewById(R.id.btn_show_fingerprint);
         getUserDetails();
-        imageViewFingerPrint.setOnClickListener(new View.OnClickListener() {
+        showGif();
+        btnShowFingerprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showBiometricDialog();
             }
         });
-        showGif();
 
     }
 
