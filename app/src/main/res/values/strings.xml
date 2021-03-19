@@ -39,4 +39,6 @@
     <string name="wallet_topup">Wallet Topup</string>
     <string name="confirm_topup">Confirm Topup</string>
     <string name="inr">INR</string>
+    <string name="transaction_successful">Transaction Successful</string>
+    <string name="featured">Featured</string>
 </resources>

@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".activity.ConfirmTopupActivity"></activity>
+        <activity android:name=".activity.AllTransactionActivity"
+            android:theme="@style/AppTheme"
+            android:label="Transaction History"/>
+        <activity android:name=".activity.TransactionStatusActivity" />
+        <activity android:name=".activity.ConfirmTopupActivity" />
         <activity android:name=".activity.TopUpActivity" />
         <activity android:name=".activity.BiometricActivity">
             <intent-filter>

@@ -24,7 +24,7 @@ import com.mahanthesh.fpay.viewModel.ProfileViewModel;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textViewArrowSettings, textViewUsername, textViewPhone;
+    TextView textViewArrowSettings, textViewUsername, textViewPhone, textViewShowTransactionHistory;
     ConstraintLayout constraintLayoutSettings;
     ProfileViewModel profileViewModel;
     ShimmerFrameLayout shimmerFrameLayout;
@@ -47,6 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         constraintLayoutSettings = findViewById(R.id.cl_settings);
         textViewUsername = findViewById(R.id.tv_username);
         textViewPhone = findViewById(R.id.tv_phone_number);
+        textViewShowTransactionHistory = findViewById(R.id.tv_transaction_history_click);
         shimmerFrameLayout = (ShimmerFrameLayout) findViewById(R.id.shimmer_layout_user_details);
         cardViewUserDetails = findViewById(R.id.cv_user_details);
         cardViewUserDetails.setVisibility(View.GONE);
@@ -61,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         textViewArrowSettings.setOnClickListener(this);
         constraintLayoutSettings.setOnClickListener(this);
         cardViewUserDetails.setOnClickListener(this);
+        textViewShowTransactionHistory.setOnClickListener(this);
 
     }
 
@@ -100,6 +102,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.cv_user_details:
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
+            case R.id.tv_transaction_history_click:
+                startActivity(new Intent(this, AllTransactionActivity.class));
+                finish();
         }
     }
 }

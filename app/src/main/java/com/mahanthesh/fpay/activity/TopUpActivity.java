@@ -92,6 +92,7 @@ public class TopUpActivity extends AppCompatActivity implements NumberKeyboardLi
                 Intent topupIntent = new Intent(this, ConfirmTopupActivity.class);
                 topupIntent.putExtra("amount", amount);
                 startActivity(topupIntent);
+                this.finish();
                 break;
             case R.id.ib_back:
                 startActivity(new Intent(this, HomeActivity.class));

@@ -1,17 +1,13 @@
 package com.mahanthesh.fpay.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gurutouchlabs.kenneth.elegantdialog.ElegantDialog;
 import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.model.SavedCardModel;
 import com.mahanthesh.fpay.model.TransactionModel;
@@ -31,6 +26,7 @@ import com.mahanthesh.fpay.viewModel.WalletViewModel;
 
 import java.text.NumberFormat;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
 
 import static com.mahanthesh.fpay.utils.Constants.GET_SAVED_CARD;
@@ -46,10 +42,11 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = "ConfirmTopupActivity";
     private ConfirmTopupViewModel confirmTopupViewModel;
     private WalletViewModel walletViewModel;
-    private SpotsDialog spotsDialog;
+    private SweetAlertDialog pDialog;
     private boolean isCardSelected = false;
     private UserInfo userInfoPayload;
     private SavedCardModel cardSelectedPayload;
+
 
 
 
@@ -147,6 +144,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
 
     private void confirmWalletBalance(){
         if(isCardSelected){
+            showProgressDialog("Please wait...");
             Long Lamount = (long) amount;
             TransactionModel transactionModel = new TransactionModel();
             transactionModel.setAmount(Lamount);
@@ -161,10 +159,12 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
                 transactionViewModel.getOnSuccessMessage().observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        if(s.equalsIgnoreCase("Success")){
-                            if(spotsDialog != null)
-                                spotsDialog.dismiss();
-                            showDialogMessage();
+                        if(!s.isEmpty()){
+                            pDialog.dismiss();
+                            pDialog = null;
+                            if(pDialog == null)
+                                startTransactionActivity(s);
+
 
                         }
                     }
@@ -174,16 +174,27 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onChanged(String s) {
                         if(s != null && !s.equals("")){
-                            showDialogMessage();
+                            pDialog.dismiss();
+                            showDialogMessage("Failed");
                         }
                     }
                 });
             }
 
         } else {
-            spotsDialog.dismiss();
             Toast.makeText(this, "Please select a payment option", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void startTransactionActivity(String id){
+        Intent i = new Intent(ConfirmTopupActivity.this, TransactionStatusActivity.class);
+        i.putExtra("trans_id",id);
+        startActivity(i);
+        killActivity();
+    }
+
+    private void killActivity(){
+        this.finish();
     }
 
     private void getUserDetails(){
@@ -196,24 +207,26 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void showProgressDialog(){
-      spotsDialog = (SpotsDialog) new SpotsDialog.Builder()
-                .setContext(this)
-                .setTheme(R.style.CustomProgress)
-                .setCancelable(false)
-                .build();
-
-      spotsDialog.show();
+    private void showProgressDialog(String message){
+        pDialog = new SweetAlertDialog(ConfirmTopupActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(getColor(R.color.colorPrimary));
+        pDialog.setTitleText(message);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
     }
 
-    private void showDialogMessage(){
-        ElegantDialog dialog = new ElegantDialog(this)
-                .setTitleIcon(getDrawable(R.drawable.ic_card))
-                .setTitleIconBackgroundColor(getColor(R.color.colorWhite))
-                .setBackgroundTopColor(getColor(R.color.colorPrimary))
-                .setCornerRadius(20)
-                .setBackgroundBottomColor(getColor(R.color.colorWhite))
+
+    private void showDialogMessage(String message){
+        new SweetAlertDialog(ConfirmTopupActivity.this)
+                .setTitleText(message)
+                .setConfirmText("Okay")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismiss();
+                    }
+                })
                 .show();
     }
 
@@ -227,9 +240,9 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
                 savedCardIntent.putExtra("saved_card",GET_SAVED_CARD);
                 savedCardIntent.putExtra("amount_value", amount);
                 startActivity(savedCardIntent);
+                finish();
                 break;
             case R.id.btn_confirm_topup:
-                    showProgressDialog();
                     confirmWalletBalance();
                 break;
             case R.id.ib_back_confirm_topup:

@@ -8,6 +8,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/colorDarkGrey"/>
+        android:background="@drawable/placeholder_bg"/>
 
 </RelativeLayout>
