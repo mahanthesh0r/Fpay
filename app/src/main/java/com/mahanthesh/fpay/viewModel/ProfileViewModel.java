@@ -17,6 +17,7 @@ public class ProfileViewModel extends ViewModel implements ProfileRepository.OnF
     private MutableLiveData<UserInfo> userInfoLiveData = new MutableLiveData<>();
     private MutableLiveData<String> userInfoMessage = new MutableLiveData<>();
     private MutableLiveData<String> userInfoOnSaveMessage = new MutableLiveData<>();
+    private MutableLiveData<UserInfo> receiverInfoLiveData = new MutableLiveData<>();
 
 
     public LiveData<UserInfo> getUserInfoLiveData() {
@@ -31,6 +32,10 @@ public class ProfileViewModel extends ViewModel implements ProfileRepository.OnF
         return userInfoOnSaveMessage;
     }
 
+    public MutableLiveData<UserInfo> getReceiverInfoLiveData() {
+        return receiverInfoLiveData;
+    }
+
     public void setUserInfo(UserInfo userInfo){
         profileRepository.setUserData(userInfo);
     }
@@ -40,11 +45,20 @@ public class ProfileViewModel extends ViewModel implements ProfileRepository.OnF
 
     }
 
+    public void getReceiverUserData(String uid){
+        profileRepository.getReceiverUserData(uid);
+    }
+
 
     @Override
     public void userDataAdded(UserInfo userInfo) {
         userInfoLiveData.setValue(userInfo);
 
+    }
+
+    @Override
+    public void onGetReceiverData(UserInfo userInfo){
+        receiverInfoLiveData.setValue(userInfo);
     }
 
     @Override

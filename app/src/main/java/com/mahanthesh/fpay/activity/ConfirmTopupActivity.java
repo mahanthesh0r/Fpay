@@ -19,9 +19,11 @@ import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.model.SavedCardModel;
 import com.mahanthesh.fpay.model.TransactionModel;
 import com.mahanthesh.fpay.model.UserInfo;
+import com.mahanthesh.fpay.repository.TransferFromWalletRepository;
 import com.mahanthesh.fpay.viewModel.ConfirmTopupViewModel;
 import com.mahanthesh.fpay.viewModel.ProfileViewModel;
 import com.mahanthesh.fpay.viewModel.TransactionViewModel;
+import com.mahanthesh.fpay.viewModel.TransferFromWalletViewModel;
 import com.mahanthesh.fpay.viewModel.WalletViewModel;
 
 import java.text.NumberFormat;
@@ -29,11 +31,16 @@ import java.text.NumberFormat;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
 
+import static com.mahanthesh.fpay.utils.Constants.FPAY_RECEIVER_UID;
+import static com.mahanthesh.fpay.utils.Constants.FPAY_SENDER_UID;
+import static com.mahanthesh.fpay.utils.Constants.FPAY_WALLET;
 import static com.mahanthesh.fpay.utils.Constants.GET_SAVED_CARD;
+import static com.mahanthesh.fpay.utils.Constants.PAYMENT_METHOD_KEY;
 
 public class ConfirmTopupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int amount = 0;
+    private String paymentMethod, senderID, receiverID;
     private TextView textViewAmountTitle, textViewAmountSummary, textViewCardName, textViewCardNumber;
     private NumberFormat nf = NumberFormat.getInstance();
     private ImageView imageViewCardBrand;
@@ -44,7 +51,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
     private WalletViewModel walletViewModel;
     private SweetAlertDialog pDialog;
     private boolean isCardSelected = false;
-    private UserInfo userInfoPayload;
+    private UserInfo userInfoPayload, receiverInfoPayload;
     private SavedCardModel cardSelectedPayload;
 
 
@@ -58,12 +65,13 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         init();
         getAmount();
         listener();
-        handleSelectCard();
+
     }
 
     private void getAmount() {
         Intent i = getIntent();
         amount = i.getIntExtra("amount",0);
+        paymentMethod = i.getStringExtra(PAYMENT_METHOD_KEY);
         if(amount != 0){
             confirmTopupViewModel.setTopupValue(amount);
             confirmTopupViewModel.getTopupValue().observe(this, new Observer<Integer>() {
@@ -79,7 +87,27 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
             textViewAmountSummary.setText(nf.format(0));
         }
 
+        if(paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
+            imageViewCardBrand.setVisibility(View.INVISIBLE);
+            textViewCardName.setText("Fpay Wallet");
+            textViewCardNumber.setText(amount + " Will be deducted from your Fpay wallet");
 
+            //Get sender and receiver id from intent
+            getSenderReceiverIntent();
+
+        }else{
+            handleSelectCard();
+        }
+
+
+
+    }
+
+    private void getSenderReceiverIntent(){
+        Intent i = getIntent();
+        senderID = i.getStringExtra(FPAY_SENDER_UID);
+        receiverID = i.getStringExtra(FPAY_RECEIVER_UID);
+        getReceiverDetails();
 
     }
 
@@ -186,6 +214,58 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    private void transferFromWallet(){
+        showProgressDialog("Please wait...");
+        Long Lamount = (long) amount;
+        if(receiverInfoPayload != null){
+            TransferFromWalletViewModel transferFromWalletViewModel = new ViewModelProvider(this).get(TransferFromWalletViewModel.class);
+            transferFromWalletViewModel.transferFromWallet(senderID, receiverID, Lamount);
+            transferFromWalletViewModel.getWalletUpdateStatus().observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    if(s.equalsIgnoreCase("success")){
+                        saveTransaction((long) amount, false,receiverInfoPayload, null);
+                    } else{
+                        //failed
+                        pDialog.dismiss();
+                    }
+                }
+            });
+        }
+    }
+
+    private void saveTransaction(Long amount, boolean isCredited, UserInfo userInfo,SavedCardModel savedCardModel){
+        TransactionModel transactionModel = new TransactionModel();
+        transactionModel.setAmount(amount);
+        transactionModel.setCredited(isCredited);
+        transactionModel.setUserInfo(userInfo);
+
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        transactionViewModel.saveTransaction(transactionModel);
+
+        transactionViewModel.getOnSuccessMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(!s.isEmpty()){
+                    pDialog.dismiss();
+                    pDialog = null;
+                    if(pDialog == null)
+                        startTransactionActivity(s);
+                }
+            }
+        });
+
+        transactionViewModel.getOnErrorMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s != null && !s.equals("")){
+                    pDialog.dismiss();
+                    showDialogMessage("Failed");
+                }
+            }
+        });
+    }
+
     private void startTransactionActivity(String id){
         Intent i = new Intent(ConfirmTopupActivity.this, TransactionStatusActivity.class);
         i.putExtra("trans_id",id);
@@ -203,6 +283,17 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onChanged(UserInfo userInfo) {
                 userInfoPayload = userInfo;
+            }
+        });
+    }
+
+    private void getReceiverDetails(){
+        ProfileViewModel profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        profileViewModel.getReceiverUserData(receiverID);
+        profileViewModel.getReceiverInfoLiveData().observe(this, new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                receiverInfoPayload = userInfo;
             }
         });
     }
@@ -243,7 +334,11 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.btn_confirm_topup:
+                if(paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
+                    transferFromWallet();
+                } else{
                     confirmWalletBalance();
+                }
                 break;
             case R.id.ib_back_confirm_topup:
                 finish();

@@ -11,9 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".activity.AllTransactionActivity"
-            android:theme="@style/AppTheme"
-            android:label="Transaction History"/>
+        <activity android:name=".activity.EnterAmountActivity"></activity>
+        <activity
+            android:name=".activity.AllTransactionActivity"
+            android:label="Transaction History"
+            android:theme="@style/AppTheme" />
         <activity android:name=".activity.TransactionStatusActivity" />
         <activity android:name=".activity.ConfirmTopupActivity" />
         <activity android:name=".activity.TopUpActivity" />

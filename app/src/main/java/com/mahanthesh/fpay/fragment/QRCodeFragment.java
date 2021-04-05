@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.WriterException;
 import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.viewModel.WalletViewModel;
@@ -42,11 +44,12 @@ public class QRCodeFragment extends Fragment {
 
     //Member Variables
     private QRGEncoder qrgEncoder;
-    private String WalletID = "User Wallet ID";
+    private String WalletID = "Fpay Wallet ID";
     private ImageView imageViewQRCode;
     private static final String TAG = "QRCodeFragment";
     private WalletViewModel walletViewModel;
     private TextView textViewWalletBalance;
+    private FirebaseUser firebaseUser;
 
     public QRCodeFragment() {
         // Required empty public constructor
@@ -95,6 +98,9 @@ public class QRCodeFragment extends Fragment {
 
     private void init() {
         imageViewQRCode = getView().findViewById(R.id.image_view_qr_code);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser != null)
+            WalletID = firebaseUser.getUid();
         qrgEncoder = new QRGEncoder(WalletID,null, QRGContents.Type.TEXT, 600);
         qrgEncoder.setColorWhite(Color.parseColor("#EAEFFF"));
         textViewWalletBalance = getView().findViewById(R.id.tv_wallet_balance_qr);

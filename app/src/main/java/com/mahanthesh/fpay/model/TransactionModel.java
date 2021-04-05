@@ -5,7 +5,9 @@ public class TransactionModel {
     private Long amount;
     private Boolean isCredited;
     private UserInfo userInfo;
+    private UserInfo receiverInfo;
     private SavedCardModel savedCardModel;
+
 
     public TransactionModel() {
     }
@@ -40,5 +42,13 @@ public class TransactionModel {
 
     public void setSavedCardModel(SavedCardModel savedCardModel) {
         this.savedCardModel = savedCardModel;
+    }
+
+    public UserInfo getReceiverInfo() {
+        return receiverInfo;
+    }
+
+    public void setReceiverInfo(UserInfo receiverInfo) {
+        this.receiverInfo = receiverInfo;
     }
 }

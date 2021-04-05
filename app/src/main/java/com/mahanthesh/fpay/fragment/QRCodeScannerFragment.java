@@ -1,5 +1,6 @@
 package com.mahanthesh.fpay.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,10 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 import com.mahanthesh.fpay.R;
+import com.mahanthesh.fpay.activity.EnterAmountActivity;
+import com.mahanthesh.fpay.utils.Constants;
+
+import static com.mahanthesh.fpay.utils.Constants.FPAY_RECEIVER_UID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,6 +99,10 @@ public class QRCodeScannerFragment extends Fragment {
                     @Override
                     public void run() {
                         Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getActivity(), EnterAmountActivity.class);
+                        i.putExtra(FPAY_RECEIVER_UID, result.getText());
+                        startActivity(i);
+
                     }
                 });
             }

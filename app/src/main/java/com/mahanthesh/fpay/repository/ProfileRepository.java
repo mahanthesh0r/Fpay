@@ -48,6 +48,21 @@ public class ProfileRepository {
         }
     }
 
+    public void getReceiverUserData(String uid){
+        userDocRef = firebaseFirestore.collection("User").document(uid);
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                if (userInfo != null) {
+                    onFirestoreTaskComplete.onGetReceiverData(userInfo);
+                } else {
+                    onFirestoreTaskComplete.onFetchError();
+                }
+            }
+        });
+    }
+
     public void setUserData(UserInfo userInfo){
         if(firebaseUser != null) {
             userRef.document(firebaseUser.getUid())
@@ -71,6 +86,7 @@ public class ProfileRepository {
     public interface OnFirestoreTaskComplete {
         void userDataAdded(UserInfo userInfo);
         void userDataSaved();
+        void onGetReceiverData(UserInfo userInfo);
         void onFetchError();
         void onSaveError(Exception e);
 
