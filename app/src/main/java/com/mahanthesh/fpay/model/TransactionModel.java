@@ -7,6 +7,7 @@ public class TransactionModel {
     private UserInfo userInfo;
     private UserInfo receiverInfo;
     private SavedCardModel savedCardModel;
+    private Long createdAt;
 
 
     public TransactionModel() {
@@ -50,5 +51,13 @@ public class TransactionModel {
 
     public void setReceiverInfo(UserInfo receiverInfo) {
         this.receiverInfo = receiverInfo;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 }

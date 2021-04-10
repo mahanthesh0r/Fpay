@@ -73,6 +73,8 @@ dependencies {
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
     //Slider
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    //Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
 

@@ -1,5 +1,7 @@
 package com.mahanthesh.fpay.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -20,6 +22,7 @@ public class WalletBalanceRepository {
     private CollectionReference colRef = firebaseFirestore.collection("User");
     private DocumentReference userDocRef = firebaseFirestore.collection("User").document(FirebaseAuth.getInstance().getUid());
     private OnFirestoreTaskComplete onFirestoreTaskComplete;
+    private static final String TAG = "WalletBalanceRepository";
 
     public WalletBalanceRepository(OnFirestoreTaskComplete onFirestoreTaskComplete){
         this.onFirestoreTaskComplete = onFirestoreTaskComplete;
@@ -42,10 +45,15 @@ public class WalletBalanceRepository {
        userDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
            @Override
            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-               if(documentSnapshot.exists()){
-                   Long amount = (Long) documentSnapshot.get("wallet_balance");
-                   onFirestoreTaskComplete.onGetWalletBalance(amount);
-               } else {
+               if(e == null){
+                   if(documentSnapshot.exists()){
+                       Long amount = (Long) documentSnapshot.get("wallet_balance");
+                       onFirestoreTaskComplete.onGetWalletBalance(amount);
+                   } else {
+                       onFirestoreTaskComplete.onError();
+                   }
+               } else{
+                   Log.d(TAG, "onEvent: " + e);
                    onFirestoreTaskComplete.onError();
                }
            }

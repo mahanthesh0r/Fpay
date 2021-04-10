@@ -1,5 +1,6 @@
 package com.mahanthesh.fpay.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,7 +21,7 @@ import com.mahanthesh.fpay.R;
 import com.mahanthesh.fpay.model.UserInfo;
 import com.mahanthesh.fpay.viewModel.ProfileViewModel;
 
-public class BiometricActivity extends AppCompatActivity implements BiometricCallback {
+public class BiometricActivity extends AppCompatActivity implements BiometricCallback, FirebaseAuth.AuthStateListener {
 
     private ImageView imageViewFingerPrint;
     private ProfileViewModel profileViewModel;
@@ -32,10 +33,6 @@ public class BiometricActivity extends AppCompatActivity implements BiometricCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biometric);
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null){
-            startActivity(new Intent(this, LoginActivity.class));
-            this.finish();
-        }
 
         init();
     }
@@ -86,7 +83,15 @@ public class BiometricActivity extends AppCompatActivity implements BiometricCal
     @Override
     protected void onStart() {
         super.onStart();
-        showBiometricDialog();
+        FirebaseAuth.getInstance().addAuthStateListener(this);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().removeAuthStateListener(this);
+
     }
 
     @Override
@@ -146,5 +151,16 @@ public class BiometricActivity extends AppCompatActivity implements BiometricCal
 
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+            return;
+        }else{
+            showBiometricDialog();
+        }
     }
 }

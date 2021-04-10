@@ -39,7 +39,7 @@ import static com.mahanthesh.fpay.utils.Constants.PAYMENT_METHOD_KEY;
 
 public class ConfirmTopupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int amount = 0;
+    private int amount = 0, walletBalance = 0;
     private String paymentMethod, senderID, receiverID;
     private TextView textViewAmountTitle, textViewAmountSummary, textViewCardName, textViewCardNumber;
     private NumberFormat nf = NumberFormat.getInstance();
@@ -65,6 +65,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         init();
         getAmount();
         listener();
+        getWalletBalance();
 
     }
 
@@ -88,9 +89,10 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         }
 
         if(paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
-            imageViewCardBrand.setVisibility(View.INVISIBLE);
+            imageViewCardBrand.setVisibility(View.GONE);
             textViewCardName.setText("Fpay Wallet");
             textViewCardNumber.setText(amount + " Will be deducted from your Fpay wallet");
+            imageButtonChooseCard.setOnClickListener(null);
 
             //Get sender and receiver id from intent
             getSenderReceiverIntent();
@@ -177,6 +179,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
             TransactionModel transactionModel = new TransactionModel();
             transactionModel.setAmount(Lamount);
             transactionModel.setCredited(true);
+            transactionModel.setCreatedAt(System.currentTimeMillis());
             if(userInfoPayload != null && cardSelectedPayload != null){
                 transactionModel.setUserInfo(userInfoPayload);
                 transactionModel.setSavedCardModel(cardSelectedPayload);
@@ -217,28 +220,51 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
     private void transferFromWallet(){
         showProgressDialog("Please wait...");
         Long Lamount = (long) amount;
-        if(receiverInfoPayload != null){
-            TransferFromWalletViewModel transferFromWalletViewModel = new ViewModelProvider(this).get(TransferFromWalletViewModel.class);
-            transferFromWalletViewModel.transferFromWallet(senderID, receiverID, Lamount);
-            transferFromWalletViewModel.getWalletUpdateStatus().observe(this, new Observer<String>() {
-                @Override
-                public void onChanged(String s) {
-                    if(s.equalsIgnoreCase("success")){
-                        saveTransaction((long) amount, false,receiverInfoPayload, null);
-                    } else{
-                        //failed
-                        pDialog.dismiss();
+        if(checkWalletBalance(amount)){
+            if(receiverInfoPayload != null){
+                TransferFromWalletViewModel transferFromWalletViewModel = new ViewModelProvider(this).get(TransferFromWalletViewModel.class);
+                transferFromWalletViewModel.transferFromWallet(senderID, receiverID, Lamount);
+                transferFromWalletViewModel.getWalletUpdateStatus().observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        if(s.equalsIgnoreCase("success")){
+                            saveTransaction((long) amount, false,userInfoPayload, null, receiverInfoPayload);
+                        } else{
+                            //failed
+                            pDialog.dismiss();
+                        }
                     }
-                }
-            });
+                });
+            }
+        } else{
+            //Low Balance
+            pDialog.dismiss();
+            showDialogMessage("Sorry insufficient funds, Please Top-up your wallet");
         }
     }
 
-    private void saveTransaction(Long amount, boolean isCredited, UserInfo userInfo,SavedCardModel savedCardModel){
+    private boolean checkWalletBalance( long amount){
+        return walletBalance != 0 && walletBalance >= amount;
+    }
+
+    private void getWalletBalance(){
+        walletViewModel.getWalletBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long integer) {
+                if(integer != null)
+                     walletBalance = Math.toIntExact(integer);
+            }
+        });
+    }
+
+    private void saveTransaction(Long amount, boolean isCredited, UserInfo userInfo,SavedCardModel savedCardModel, UserInfo receiverInfo){
         TransactionModel transactionModel = new TransactionModel();
         transactionModel.setAmount(amount);
         transactionModel.setCredited(isCredited);
         transactionModel.setUserInfo(userInfo);
+        transactionModel.setReceiverInfo(receiverInfo);
+        Long createdAt = System.currentTimeMillis();
+        transactionModel.setCreatedAt(createdAt);
 
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         transactionViewModel.saveTransaction(transactionModel);
@@ -309,7 +335,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
 
 
     private void showDialogMessage(String message){
-        new SweetAlertDialog(ConfirmTopupActivity.this)
+        new SweetAlertDialog(ConfirmTopupActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(message)
                 .setConfirmText("Okay")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

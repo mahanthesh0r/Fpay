@@ -98,7 +98,6 @@ public class QRCodeScannerFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getActivity(), EnterAmountActivity.class);
                         i.putExtra(FPAY_RECEIVER_UID, result.getText());
                         startActivity(i);

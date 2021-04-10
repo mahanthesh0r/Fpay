@@ -49,7 +49,7 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/CustomTheme"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.ChartsActivity" />
     </application>
 
 </manifest>

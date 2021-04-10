@@ -228,19 +228,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:text="@string/contact"
+                        android:text="@string/spendings"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
                         app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
                     <TextView
-                        android:id="@+id/textView17"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_show_charts"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="10dp"
                         android:text=">"
+                        android:textAlignment="textEnd"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="@+id/textView16"
                         app:layout_constraintEnd_toEndOf="parent"
