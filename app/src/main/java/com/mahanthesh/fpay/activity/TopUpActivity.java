@@ -19,7 +19,9 @@ import com.mahanthesh.fpay.viewModel.ConfirmTopupViewModel;
 
 import java.text.NumberFormat;
 
+import static com.mahanthesh.fpay.utils.Constants.FPAY_WALLET;
 import static com.mahanthesh.fpay.utils.Constants.MAX_TOPUP_LIMIT;
+import static com.mahanthesh.fpay.utils.Constants.PAYMENT_METHOD_KEY;
 
 public class TopUpActivity extends AppCompatActivity implements NumberKeyboardListener, View.OnClickListener {
 

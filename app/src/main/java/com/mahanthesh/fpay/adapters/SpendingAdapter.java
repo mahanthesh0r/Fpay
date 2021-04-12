@@ -61,8 +61,8 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.Spendi
     public int getItemCount() {
         if(transactionModelList == null)
             return 0;
-        else if(MAX_LOAD != 0)
-            return MAX_LOAD;
+//        else if(MAX_LOAD != 0)
+//            return MAX_LOAD;
         else
             return transactionModelList.size();
     }

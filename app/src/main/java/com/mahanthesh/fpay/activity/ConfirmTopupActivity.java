@@ -88,7 +88,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
             textViewAmountSummary.setText(nf.format(0));
         }
 
-        if(paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
+        if(paymentMethod != null && paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
             imageViewCardBrand.setVisibility(View.GONE);
             textViewCardName.setText("Fpay Wallet");
             textViewCardNumber.setText(amount + " Will be deducted from your Fpay wallet");
@@ -138,7 +138,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
     private void showChooseCard(SavedCardModel savedCardModel) {
         if(savedCardModel != null){
             isCardSelected = true;
-            switch(savedCardModel.getCardBrand()){
+            switch("VISA"){
                 case "VISA":
                     imageViewCardBrand.setImageResource(R.drawable.ic_billing_visa_logo);
                     imageViewCardBrand.setBackgroundColor(getColor(R.color.colorBlack));
@@ -261,7 +261,8 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
         TransactionModel transactionModel = new TransactionModel();
         transactionModel.setAmount(amount);
         transactionModel.setCredited(isCredited);
-        transactionModel.setUserInfo(userInfo);
+        //TODO Change Sender and Receiver Details in Spending Adapter and Transaction History
+        transactionModel.setUserInfo(receiverInfo);
         transactionModel.setReceiverInfo(receiverInfo);
         Long createdAt = System.currentTimeMillis();
         transactionModel.setCreatedAt(createdAt);
@@ -360,7 +361,7 @@ public class ConfirmTopupActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.btn_confirm_topup:
-                if(paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
+                if(paymentMethod != null && paymentMethod.equalsIgnoreCase(FPAY_WALLET)){
                     transferFromWallet();
                 } else{
                     confirmWalletBalance();
